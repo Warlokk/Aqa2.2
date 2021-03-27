@@ -33,8 +33,7 @@ public class Delivery {
     private String plusDays(int n) {
         LocalDate date = LocalDate.now();
         date = date.plusDays(n);
-        String newDate = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
-        System.out.println("date" + newDate);
+        String newDate = date.format(DateTimeFormatter.ofPattern("ddMMyyyy"));
         return newDate;
     }
 

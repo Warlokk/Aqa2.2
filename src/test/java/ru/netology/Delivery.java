@@ -61,15 +61,26 @@ public class Delivery {
         $(".input__icon [type=button]").click();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String dateInCalendar =  $("[placeholder='Дата встречи']").getValue();
+        String dateInCalendar = $("[placeholder='Дата встречи']").getValue();
         LocalDate date = LocalDate.parse(dateInCalendar, formatter);
         LocalDate newDate = plusDays(7);
         String day = Integer.toString(newDate.getDayOfMonth());
 
-        if ((date.getMonth()) != newDate.getMonth()) {
-            $("[data-step='1']").click();
+        if (newDate.getYear() > date.getYear()) {
+            $("[data-step='12']").click();
         }
 
+        if (newDate.getMonthValue() > date.getMonthValue()) {
+            int monthCount = (newDate.getMonthValue() - date.getMonthValue());
+            for (int i = 0; i < monthCount; i++) {
+                $("[data-step='1']").click();
+            }
+        } else if (newDate.getMonthValue() < date.getMonthValue()) {
+            int monthCount = (date.getMonthValue() - newDate.getMonthValue());
+            for (int i = 0; i < monthCount; i++) {
+                $("[data-step='-1']").click();
+            }
+        }
         $$(".calendar__day").find(exactText(day)).click();
         String expected = newDate.format(formatter);
         $("[name=phone]").setValue("+79999999999");
